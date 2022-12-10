@@ -1,0 +1,36 @@
+{
+  "blocks": [
+    {
+      "type": "section",
+      "block_id": "section",
+      "text": {
+        "type": "plain_text",
+        "text": "Выберите сотрудника, которого необходимо убрать со смены"
+      }
+    },
+    {
+      "type": "actions",
+      "block_id": "actions",
+      "elements": [
+        {
+          "type": "static_select",
+          "placeholder": {
+            "type": "plain_text",
+            "text": "Select an item"
+          },
+          "options": [],
+          "action_id": "static_select-action"
+        },
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Убрать"
+          },
+          "value": "exitJobsButton",
+          "action_id": "actionIdButton"
+        }
+      ]
+    }
+  ]
+}

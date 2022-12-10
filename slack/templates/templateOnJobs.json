@@ -1,0 +1,115 @@
+{
+  "blocks": [
+    {
+      "type": "header",
+      "block_id": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "Шаблон выхода на смену"
+      }
+    },
+    {
+      "type": "divider",
+      "block_id": "topDivider"
+    },
+    {
+      "type": "section",
+      "block_id": "section",
+      "text": {
+        "type": "plain_text",
+        "text": "Выберите сотрудника и укажите дату окончания смены."
+      }
+    },
+    {
+      "type": "input",
+      "block_id": "input",
+      "element": {
+        "placeholder": {
+          "type": "plain_text",
+          "text": "79201110011"
+        },
+        "type": "plain_text_input",
+        "action_id": "inputText"
+      },
+      "label": {
+        "type": "plain_text",
+        "text": "Личный мобильный номер"
+      }
+    },
+    {
+      "type": "context",
+      "block_id": "context1",
+      "elements": [
+        {
+          "type": "plain_text",
+          "text": "Список сотрудников, созданных на данный момент в ВАТС"
+        }
+      ]
+    },
+    {
+      "type": "actions",
+      "block_id": "actionsStaticSelect",
+      "elements": [
+        {
+          "type": "static_select",
+          "action_id": "static_select",
+          "placeholder": {
+            "type": "plain_text",
+            "text": "Выберите сотрудника"
+          },
+          "options": []
+        }
+      ]
+    },
+    {
+      "type": "context",
+      "block_id": "context2",
+      "elements": [
+        {
+          "type": "plain_text",
+          "text": "Дата и время указывается в вашем часовом поясе"
+        }
+      ]
+    },
+    {
+      "type": "actions",
+      "block_id": "actionsDateTimePicker",
+      "elements": [
+        {
+          "type": "datepicker",
+          "action_id": "datepicker",
+          "placeholder": {
+            "type": "plain_text",
+            "text": "Select a date"
+          }
+        },
+        {
+          "type": "timepicker",
+          "action_id": "timepicker",
+          "placeholder": {
+            "type": "plain_text",
+            "text": "Select time"
+          }
+        }
+      ]
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Выйти на смену!"
+          },
+          "value": "onJobsButton",
+          "action_id": "actionIdButton"
+        }
+      ]
+    },
+    {
+      "type": "divider",
+      "block_id": "bottomDivider"
+    }
+  ]
+}
