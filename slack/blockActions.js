@@ -1,6 +1,6 @@
 import { sendMessage } from "./message/sendMessage.js"
 import { deleteMessage } from "./message/deleteMessage.js"
-import { setUserOnJob, deleteUsersOnJob } from "./../DB/javascript/editUserOnJob.js"
+import { getUserOnJob, setUserOnJob, deleteUsersOnJob } from "./../DB/javascript/editUserOnJob.js"
 import { setupUsers } from "../api_mf/setupUsers.js"
 import dotenv from 'dotenv'
 dotenv.config()
@@ -25,28 +25,48 @@ function blockActions(body) {
           let time = body.state.values.actionsDateTimePicker.timepicker.selected_time || "none"
           console.log(`[blockAction] See the next users param telnum:${telnum}; user:${user}; time:${date} ${time}`);
 
-          console.log(`[blockAction] Send event to "sendMessage"`);
-          sendMessage('text', `Выход на смену со следующими параметрами\n{"telnum":"${telnum}", "user":"${user}", "time":"${date} ${time}"}`)
+          let continueSetup = true
+          let usersKnown = getUserOnJob()
 
-          console.log(`[blockAction] Send event to "setUserOnJob"`);
-          let bodyUserToSave = {
-            "login": user,
-            "telnum": telnum,
-            "expirationTime": Date.parse(`${date} ${time}`).toString
-          }
-          setUserOnJob(bodyUserToSave)
-
-          let bodyUserToMF = {
-            "mobile": telnum,
-            "mobile_redirect": {
-              "enabled": true,
-              "forward": true
+          usersKnown.forEach(element => {
+            console.log(element);
+            if (element.login === user) {
+              continueSetup = false
             }
-          }
-          setupUsers(process.env.MF_API_KEY, user, bodyUserToMF)
+          })
 
-          console.log(`[blockAction] Send event to "deleteMessage". Message: ${body.message.ts}`);
-          deleteMessage(body.message.ts)
+          console.log(`continue: ${continueSetup}`);
+
+          if (continueSetup) {
+            console.log(`[blockAction] Send event to "setUserOnJob"`);
+            let bodyUserToSave = {
+              "login": user,
+              "telnum": telnum,
+              "expirationTime": Date.parse(`${date} ${time}`).toString
+            }
+            setUserOnJob(bodyUserToSave)
+
+            let bodyUserToMF = {
+              "mobile": telnum,
+              "mobile_redirect": {
+                "enabled": true,
+                "forward": true
+              }
+            }
+            setupUsers(process.env.MF_API_KEY, user, bodyUserToMF)
+
+            console.log(`[blockAction] Send event to "deleteMessage". Message: ${body.message.ts}`);
+            deleteMessage(body.message.ts)
+
+            console.log(`[blockAction] Send event to "sendMessage"`);
+            sendMessage('text', `Выход на смену со следующими параметрами\n{"telnum":"${telnum}", "user":"${user}", "time":"${date} ${time}"}`)
+          } else {
+            console.log(`[blockAction] Send event to "deleteMessage". Message: ${body.message.ts}`);
+            deleteMessage(body.message.ts)
+
+            console.log(`[blockAction] Send event to "sendMessage"`);
+            sendMessage('text', `Данный сотрудник уже находится на смене`)
+          }
 
         } else {
           console.log(`[blockAction][ERROR] Check telnum format. Send error to "sendMessage" with ${telnum}`);
