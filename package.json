@@ -9,14 +9,5 @@
     "express": "^4.18.2",
     "ngrok": "^4.3.3",
     "nodemon": "^2.0.20"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PashaFG/Night-Wathdog.git"
-  },
-  "author": "Pablo Yudakov",
-  "bugs": {
-    "url": "https://github.com/PashaFG/Night-Wathdog"
-  },
-  "homepage": "https://github.com/PashaFG/Night-Wathdog#readme"
+  }
 }

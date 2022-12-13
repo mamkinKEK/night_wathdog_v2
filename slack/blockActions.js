@@ -1,6 +1,6 @@
 import { sendMessage } from "./message/sendMessage.js"
 import { deleteMessage } from "./message/deleteMessage.js"
-import { setUserOnJob } from "./../DB/javascript/editUserOnJob.js"
+import { setUserOnJob, deleteUsersOnJob } from "./../DB/javascript/editUserOnJob.js"
 import { setupUsers } from "../api_mf/setupUsers.js"
 import dotenv from 'dotenv'
 dotenv.config()
@@ -45,7 +45,7 @@ function blockActions(body) {
           }
           setupUsers(process.env.MF_API_KEY, user, bodyUserToMF)
 
-          console.log(`[blockAction] Send event to "deleteMessage"`);
+          console.log(`[blockAction] Send event to "deleteMessage". Message: ${body.message.ts}`);
           deleteMessage(body.message.ts)
 
         } else {
@@ -57,12 +57,28 @@ function blockActions(body) {
 
 
       case "exitJobsButton":
-        console.log(`[blockAction] Send event to "sendMessage"`);
-        sendMessage('text', `Выход на смену со следующими параметрами\n{"telnum":"${telnum}", "user":"${user}", "time":"${date} ${time}"}`)
-        console.log(`[blockAction] Send event to "deleteMessage"`);
+        let user = body.state.values.actions.static_select_action.selected_option.value
+        let bodyUserToMF = {
+          "mobile": "",
+          "mobile_redirect": {
+            "enabled": false,
+            "forward": false
+          }
+        }
+
+        console.log(`[blockAction] Send event to "deleteUsersOnJob" with user ${user}`);
+        deleteUsersOnJob(user)
+        console.log(`[blockAction] Send event to "setupUsers". User: ${user}; Body: ${JSON.stringify(bodyUserToMF)}`);
+        setupUsers(process.env.MF_API_KEY, user, bodyUserToMF)
+        console.log(`[blockAction] Send event to "deleteMessage". Message: ${body.message.ts}`);
         deleteMessage(body.message.ts)
 
         break;
+
+      default:
+        console.log(`[blockActions] Unknown actions. Ignoring`);
+
+        break
     }
   }
 }

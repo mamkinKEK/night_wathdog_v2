@@ -15,6 +15,7 @@ function setUserOnJob(body) {
 
     users.push(body)
     writeFile(users)
+    console.log(`[editUserOnJob] Set user "${body.login}" to job`);
   }
 }
 
@@ -27,6 +28,7 @@ function deleteUsersOnJob(user) {
     }
   }
   writeFile(users)
+  console.log(`[editUserOnJob] Delete user "${user}" from job`);
 }
 
 export { getUserOnJob, deleteUsersOnJob, setUserOnJob }

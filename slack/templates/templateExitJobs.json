@@ -19,7 +19,7 @@
             "text": "Select an item"
           },
           "options": [],
-          "action_id": "static_select-action"
+          "action_id": "static_select_action"
         },
         {
           "type": "button",

@@ -12,7 +12,7 @@ function deleteMessage(ts) {
     body: JSON.stringify(body)
   })
     .then((response) => response.json())
-    .then((data) => console.log(JSON.stringify(data)));
+  // .then((data) => console.log(JSON.stringify(data)));
 
 }
 
