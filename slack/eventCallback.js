@@ -7,24 +7,36 @@ dotenv.config()
 function eventCallback(message) {
   const bodyTextString = message.event.text || ""
 
-  if (bodyTextString.search(/на смену/i) > 0) {
-    console.log('[eventCallback] Send event to \"setupOnJobsTemplate\"');
-    setupOnJobsTemplate(process.env.MF_API_KEY)
-  }
+  switch (bodyTextString.replace(/^\s*<.+>\s*(.+)/gm, "$1")) {
+    case "на смену":
+    case "на работу":
+    case "На смену":
+    case "На работу":
+      console.log('[eventCallback] Send event to \"setupOnJobsTemplate\"');
+      setupOnJobsTemplate(process.env.MF_API_KEY)
+      break
 
-  if (bodyTextString.search(/кто на смене/i) > 0) {
-    let users = getUserOnJob()
-    let outUsers = ''
-    users.forEach(element => {
-      outUsers += JSON.stringify(element)
-    });
+    case "кто на смене":
+    case "Кто на смене":
+    case "кто на работе":
+    case "Кто на работе":
+      let users = getUserOnJob()
+      let outUsers = ''
+      users.forEach(element => {
+        outUsers += JSON.stringify(element)
+      });
 
-    console.log('[eventCallback] Send event to \"sendMessage\"');
-    sendMessage("text", `Сотрудники на смене:\n${outUsers}`)
-  }
-  if (bodyTextString.search(/уйти со смены/i) > 0) {
-    console.log('[eventCallback] Send event to \"setupTemplate\"');
-    setupExitJobsTemplate()
+      console.log('[eventCallback] Send event to \"sendMessage\"');
+      sendMessage("text", `Сотрудники на смене:\n${outUsers}`)
+      break
+
+    case "уйти со смены":
+    case "Уйти со смены":
+    case "уйти с работы":
+    case "Уйти с работы":
+      console.log('[eventCallback] Send event to \"setupTemplate\"');
+      setupExitJobsTemplate()
+      break
   }
 }
 
