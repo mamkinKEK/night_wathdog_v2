@@ -2,6 +2,7 @@ import { sendMessage } from './message/sendMessage.js'
 import { getUserOnJob } from './../DB/javascript/editUserOnJob.js'
 import onJobsTemplate from './templates/templateOnJobs.json' assert {type: "json"}
 import exitJobsTemplate from './templates/templateExitJobs.json' assert {type: "json"}
+import helpTemplate from './templates/templateHelp.json' assert {type: "json"}
 import { getUsers } from './../api_mf/getUsers.js'
 
 function setupOnJobsTemplate(apiKey) {
@@ -37,4 +38,13 @@ function setupExitJobsTemplate() {
   sendMessage("blocks", exitJobsTemplate.blocks)
 }
 
-export { setupOnJobsTemplate, setupExitJobsTemplate }
+function setupHelpTemplate() {
+  console.log('[setupHelpTemplate] Send event to \"SendMessage\"');
+  sendMessage("blocks", helpTemplate.blocks)
+}
+
+export {
+  setupOnJobsTemplate,
+  setupExitJobsTemplate,
+  setupHelpTemplate
+}
