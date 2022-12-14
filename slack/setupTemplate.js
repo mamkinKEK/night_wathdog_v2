@@ -2,18 +2,7 @@ import { sendMessage } from './message/sendMessage.js'
 import { getUserOnJob } from './../DB/javascript/editUserOnJob.js'
 import onJobsTemplate from './templates/templateOnJobs.json' assert {type: "json"}
 import exitJobsTemplate from './templates/templateExitJobs.json' assert {type: "json"}
-
-async function getUsers(apiKey, callback) {
-  const response = await fetch('https://itltest.megapbx.ru/crmapi/v1/users', {
-    method: 'GET',
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY": apiKey
-    }
-  })
-  const data = await response.json()
-  callback(data)
-}
+import { getUsers } from './../api_mf/getUsers.js'
 
 function setupOnJobsTemplate(apiKey) {
   getUsers(apiKey, (data) => {
