@@ -5,6 +5,9 @@ import { blockActions } from './slack/blockActions.js';
 import express, { json } from 'express';
 import bodyParser from 'body-parser';
 
+import { alarmClock } from "./alarm_clock/alarm_task.js";
+import { clearUsers } from './DB/javascript/clearUsers.js';
+
 
 const app = express()
 // support encoded bodies
@@ -45,3 +48,6 @@ app.all('/', function (req, res) {
 app.listen(process.env.PORT, function () {
   console.log(`Serve listening at ${process.env.PORT}`);
 })
+
+setInterval(clearUsers, 60000)
+setInterval(alarmClock, 900000)

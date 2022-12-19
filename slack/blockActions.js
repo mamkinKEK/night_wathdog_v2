@@ -38,12 +38,13 @@ function blockActions(body) {
           console.log(`continue: ${continueSetup}`);
 
           if (continueSetup) {
-            console.log(`[blockAction] Send event to "setUserOnJob"`);
             let bodyUserToSave = {
               "login": user,
               "telnum": telnum,
-              "expirationTime": Date.parse(`${date} ${time}`).toString
+              "expirationTime": Date.parse(`${date} ${time}`)
+              // "expirationTime": "Date.parse(`${date} ${time}`).toString || "
             }
+            console.log(`[blockAction] Send event to "setUserOnJob". Body ${JSON.stringify(bodyUserToSave)}`);
             setUserOnJob(bodyUserToSave)
 
             let bodyUserToMF = {
