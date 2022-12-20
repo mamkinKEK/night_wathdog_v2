@@ -1,8 +1,10 @@
-import usersOnJobs from './../DB/json/usersOnJobs.json' assert {type: "json"}
+// import usersOnJobs from './../DB/json/usersOnJobs.json' assert {type: "json"}
+import { getUserOnJob } from '../DB/javascript/editUserOnJob.js';
 import { callUsers } from '../api_mf/callUsers.js';
-
+import { sendMessage } from '../slack/message/sendMessage.js'
 
 function alarmClock() {
+  let usersOnJobs = getUserOnJob()
   let calledUsers = []
   console.log(`[alarmClock] Starting ${Date()}. UsersOnJobs: ${JSON.stringify(usersOnJobs)})}`);
   console.log(calledUsers);
